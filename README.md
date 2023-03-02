@@ -13,7 +13,7 @@
 
 4. (optional) Assign “Contributor” role to new user on AKS Cluster “myAKSCluster” and required resource groups (goto respective resource group and select IAM)
 
-5. (optional) Login to Azure Portal with new user “aksuser01” and opened cloud shell
+5. (optional) Login to Azure Portal with new user “aksuser01” and opene cloud shell
 
 6. Connect to the AKS cluster “myAKSCluster“ using commands from the Azure Portal (AKS > myAKSCluster > Connect) and create Pods with “hello-world“ Container conataining “hello-world” image & Load Balance Service “hello-world-load-balancer“ using attached manifest files (download attached files "ajit-hello_world-depl_v2.yml" & "ajit-hello_world-svc_v2.yml" and upload to AZ cloud shell, use below commands)
 
