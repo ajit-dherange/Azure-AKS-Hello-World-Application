@@ -81,14 +81,14 @@ spec:
 
 ```
 data "azurerm_resource_group" "rg" {
-  name = "pramod-rg01"
+  name = "mygroup-rg01"
 }
 
-resource "azurerm_kubernetes_cluster" "pramodakscluster" {
-  name                = "pramod-k8s-aks"
+resource "azurerm_kubernetes_cluster" "myakscluster" {
+  name                = "my-k8s-aks01"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
-  dns_prefix          = "pramodakscluster01"
+  dns_prefix          = "myakscluster01"
 
   default_node_pool {
     name              = "k8snodespool"
@@ -110,7 +110,7 @@ resource "azurerm_kubernetes_cluster" "pramodakscluster" {
   }
 
   tags = {
-    Environment = "Production"
+    Environment = "Dev"
   }
 }
 ```       
