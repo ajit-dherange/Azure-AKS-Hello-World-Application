@@ -53,7 +53,55 @@ Note: Delete all resources created on Azure as soon as test complete and result 
 
 ##    Some more practice for Kubernates resources: 
 
-1. yaml file for creating two containers in a single POD
+1. Basic commands for logging to Azure cloud AKS
+```  
+az login
+az account set --subscription dc6f5ff1-cb35-46c0-8392-f1272fb21c8d
+az aks get-credentials --resource-group ajit-rg01 --name ajit-k8s-aks --overwrite-existing
+```  
+2. To test connection to aks
+```  
+kubectl get nodes
+```  
+3. Create pod
+kubectl create -f .\ajit-pod.yaml
+```  
+ajit-pod.yaml
+---------------  
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ajit-multi-container-pod
+  namespace: default
+spec: 
+  containers:
+  - image: nginx
+    name: nginx-container
+    ports:
+    - containerPort: 80
+
+  - image: linuxserver/firefox
+    name: firefox-container
+    ports:
+    - containerPort: 3000
+```  
+
+4. Port forwarding
+
+kubectl port-forward pramod-multi-container 3000:3000
+
+
+
+5. Testing PODS
+
+Open any Browser on your laptop & type http://localhost:3000 
+
+then while inside Firefox Browser type below http://localhost:80
+
+You should be able to see Webpage of Firefox Browser and NGINX Browser. This conclude that you are able to communicate between two containers ( which are inside a pod ) using localhost
+
+
+6. yaml file for creating two containers in a single POD
 
 ```
 apiversion: v1
@@ -77,7 +125,7 @@ spec:
        - containerPort: 6379
 ```
 
-2. Terraform code to create a simple  Kubernetes Cluster 
+7. Terraform code to create a simple  Kubernetes Cluster 
 
 ```
 data "azurerm_resource_group" "rg" {
