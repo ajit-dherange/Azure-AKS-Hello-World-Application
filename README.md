@@ -76,4 +76,41 @@ spec:
      ports:
        - containerPort: 6379
 ```
-       
+
+2. Terraform code to create a simple  Kubernetes Cluster 
+
+```
+data "azurerm_resource_group" "rg" {
+  name = "pramod-rg01"
+}
+
+resource "azurerm_kubernetes_cluster" "pramodakscluster" {
+  name                = "pramod-k8s-aks"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  dns_prefix          = "pramodakscluster01"
+
+  default_node_pool {
+    name              = "k8snodespool"
+    min_count         = 1
+    max_count         = 3
+    vm_size           = "Standard_D2_v2"
+    auto_scaling_enabled = "true"
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  network_profile {
+    network_plugin    = "azure"
+    network_policy    = "calico"
+    load_balancer_sku = "standard"
+    
+  }
+
+  tags = {
+    Environment = "Production"
+  }
+}
+```       
