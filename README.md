@@ -51,7 +51,7 @@
 
 Note: Delete all resources created on Azure as soon as test complete and result shown to avoid utilization charges, new lab can be setup in minutes using above caommads
 
-**Some more practice for Kubernates resources: 
+##    Some more practice for Kubernates resources: 
 
 1. yaml file for creating two containers in a single POD
 
