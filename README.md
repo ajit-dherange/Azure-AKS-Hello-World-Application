@@ -50,3 +50,30 @@
     $ kubectl exec --stdin --tty hello-world-6b58f8d7f-v96ln -- sh
 
 Note: Delete all resources created on Azure as soon as test complete and result shown to avoid utilization charges, new lab can be setup in minutes using above caommads
+
+**Some more practice for Kubernates resources: 
+
+1. yaml file for creating two containers in a single POD
+
+```
+apiversion: v1
+kind: pod
+metadata:
+    name:myfirstpod
+    namespace:testing
+    labels:
+      app: webserver
+
+spec:
+  containers:
+    -image: nginx:latest
+     name: nginxcontainer01
+     ports:
+       - containerPort: 80
+
+    -image: redis:latest
+     name: redisconntainer01
+     ports:
+       - containerPort: 6379
+```
+       
