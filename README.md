@@ -56,15 +56,15 @@ Note: Delete all resources created on Azure as soon as test complete and result 
 1. Basic commands for logging to Azure cloud AKS
 ```  
 az login
-az account set --subscription dc6f5ff1-cb35-46c0-8392-f1272fb21c8d
-az aks get-credentials --resource-group ajit-rg01 --name ajit-k8s-aks --overwrite-existing
+az account set --subscription xxxxxx
+az aks get-credentials --resource-group ajit-rg01 --name ajit-aks-01 --overwrite-existing
 ```  
-2. To test connection to aks
+2. Test connection to aks
 ```  
 kubectl get nodes
 ```  
 3. Create pod
-kubectl create -f .\ajit-pod.yaml
+kubectl create -f ajit-pod.yaml
 ```  
 ajit-pod.yaml
 ---------------  
@@ -128,11 +128,11 @@ spec:
 
 ```
 data "azurerm_resource_group" "rg" {
-  name = "mygroup-rg01"
+  name = "myresourcegroup-rg01"
 }
 
 resource "azurerm_kubernetes_cluster" "myakscluster" {
-  name                = "my-k8s-aks01"
+  name                = "myakscluster-01"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   dns_prefix          = "myakscluster01"
