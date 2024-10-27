@@ -63,7 +63,7 @@ az aks get-credentials --resource-group ajit-rg01 --name ajit-aks-01 --overwrite
 ```  
 kubectl get nodes
 ```  
-3. Create pod
+3. Create multi container pod
 kubectl create -f ajit-pod.yaml
 ```  
 ajit-pod.yaml
@@ -79,7 +79,6 @@ spec:
     name: nginx-container
     ports:
     - containerPort: 80
-
   - image: linuxserver/firefox
     name: firefox-container
     ports:
@@ -93,11 +92,9 @@ kubectl port-forward pramod-multi-container 3000:3000
 
 5. Testing PODS
 
-Open any Browser on your laptop & type http://localhost:3000 
+Open any Browser on your laptop & type http://localhost:3000, then while inside Firefox Browser type below http://localhost:80
 
-then while inside Firefox Browser type below http://localhost:80
-
-You should be able to see Webpage of Firefox Browser and NGINX Browser. This conclude that you are able to communicate between two containers ( which are inside a pod ) using localhost
+You should be able to see Webpage of Firefox Browser and NGINX Browser. This conclude that you are able to communicate between two containers (which are inside a pod) using localhost
 
 
 6. yaml file for creating two containers in a single POD
@@ -106,22 +103,20 @@ You should be able to see Webpage of Firefox Browser and NGINX Browser. This con
 apiversion: v1
 kind: pod
 metadata:
-    name:myfirstpod
-    namespace:testing
+    name:myfirstmulticontainerpod
+    #namespace:testing
     labels:
       app: webserver
-
 spec:
   containers:
     -image: nginx:latest
      name: nginxcontainer01
      ports:
        - containerPort: 80
-
     -image: redis:latest
      name: redisconntainer01
      ports:
-       - containerPort: 6379
+       - containerPort: 8080
 ```
 
 7. Terraform code to create a simple  Kubernetes Cluster 
@@ -160,4 +155,34 @@ resource "azurerm_kubernetes_cluster" "myakscluster" {
     Environment = "Dev"
   }
 }
-```       
+```
+8. yaml file for creating container with volme: 
+   **I) emptyDir**
+   An emptyDir volume is first created when a Pod is assigned to a Node and initially its empty. All containers in a Pod share use of the emptyDir volume scratch space, such as for a disk-based merge sort. If a container in a Pod crashes the emptyDir content is unaffected. When a Pod is removed from a node for any reason, the data in the emptyDir is deleted forever along with the container.
+   *Some uses for an emptyDir are:*
+    (1) scratch space, such as for a disk-based merge sort
+    (2)checkpointing a long computation for recovery from crashes
+    (3) holding files that a content-manager container fetches while a webserver container serves the data
+   ```
+apiversion: v1
+kind: pod
+metadata:
+    name:myfirstpodwithvol
+    #namespace:testing
+    labels:
+      app: webserver
+spec:
+  volumes:
+  - name: dhondu-vol
+    emptyDir: {}
+      sizeLimit: 1G
+  containers:
+    -image: nginx:latest
+     name: nginxcontainer01
+     ports:
+       - containerPort: 80
+     volumeMounts:
+       - name: dhondu-vol 
+         mountPath: /usr/share/ngnix/html      
+   ```
+      **II) Persistant Volume**
