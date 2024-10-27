@@ -64,7 +64,7 @@ az aks get-credentials --resource-group ajit-rg01 --name ajit-aks-01 --overwrite
 kubectl get nodes
 ```  
 3. Create multi container pod
-kubectl create -f ajit-pod.yaml
+$ kubectl create -f ajit-pod.yaml
 ```  
 ajit-pod.yaml
 ---------------  
@@ -156,14 +156,17 @@ resource "azurerm_kubernetes_cluster" "myakscluster" {
   }
 }
 ```
-8. yaml file for creating container with volme: 
+8. yaml file for creating container with volme:
+   
    **I) emptyDir**
    An emptyDir volume is first created when a Pod is assigned to a Node and initially its empty. All containers in a Pod share use of the emptyDir volume scratch space, such as for a disk-based merge sort. If a container in a Pod crashes the emptyDir content is unaffected. When a Pod is removed from a node for any reason, the data in the emptyDir is deleted forever along with the container.
+   
    *Some uses for an emptyDir are:*
     (1) scratch space, such as for a disk-based merge sort
     (2)checkpointing a long computation for recovery from crashes
     (3) holding files that a content-manager container fetches while a webserver container serves the data
-   ```
+
+```
 apiversion: v1
 kind: pod
 metadata:
@@ -184,5 +187,6 @@ spec:
      volumeMounts:
        - name: dhondu-vol 
          mountPath: /usr/share/ngnix/html      
-   ```
+  ```
+
       **II) Persistant Volume**
