@@ -87,7 +87,7 @@ spec:
 
 4. Port forwarding
 ```  
-kubectl port-forward pramod-multi-container 3000:3000
+kubectl port-forward ajit-multi-container 3000:3000
 ```
 
 5. Testing PODS
