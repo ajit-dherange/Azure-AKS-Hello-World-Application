@@ -1,6 +1,5 @@
 # Azure-AKS-Hello-World-Application
 
-
 1. Login to Azure Portal
 
 2. Open AZ Cloud shell (Bash) and Create Resource group “myResourceGroup” & AKS Cluster “myAKSCluster” with one node using below commands
@@ -50,6 +49,34 @@
     $ kubectl exec --stdin --tty hello-world-6b58f8d7f-v96ln -- sh
 
 Note: Delete all resources created on Azure as soon as test complete and result shown to avoid utilization charges, new lab can be setup in minutes using above caommads
+
+## Advance 
+1. Install NGINX Ingress Controller
+``` 
+$ kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/v3.7.1/deploy/crds.yaml
+
+$ kubectl get pods --all-namespaces -l app=ingress-nginx
+```
+2. Create Ingress Service
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+        - path: "/"
+          backend:
+            serviceName: hello-world-load-balancer
+            servicePort: 80
+        
+
+$ kubectl get ingressclasses
+``` 
 
 ##    Some more practice for Kubernates resources: 
 
